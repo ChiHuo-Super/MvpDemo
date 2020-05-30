@@ -122,7 +122,7 @@ public abstract class BasePresenter<V extends IBaseController.IView> implements 
         }
     }
 
-    public void showToast(String title, String str) {
+    public void showToast( String str) {
         Toast.makeText(mContext, str, Toast.LENGTH_LONG).show();
     }
 }
