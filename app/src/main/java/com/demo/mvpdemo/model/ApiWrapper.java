@@ -62,7 +62,7 @@ public class ApiWrapper {
      */
     public String getUrl(String url) {
         if (!url.contains("http")) {
-            url = "http://" + url;
+            url = "https://" + url;
         }
         return url;
     }

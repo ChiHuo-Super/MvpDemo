@@ -26,15 +26,15 @@ public abstract class BaseDbController<T> {
     public abstract void update(T t);
 
     /**
+     * 查询所有数据 queryBuilder().list()
+     */
+    public abstract List<T> searchAll();
+
+    /**
      * 按条件查询数据
      * queryBuilder
      */
     public abstract List<T> searchByWhere(String whereCondition);
-
-    /**
-     * 查询所有数据 queryBuilder().list()
-     */
-    public abstract List<T> searchAll();
 
     /**
      * 查询指定区域数据 queryBuilder().list()
@@ -52,4 +52,6 @@ public abstract class BaseDbController<T> {
      */
     public abstract void delete(String whereCondition);
 
+
+    public abstract void delete(T t);
 }

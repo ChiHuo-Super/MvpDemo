@@ -35,18 +35,6 @@ public interface IBaseController {
 
         void onNewIntent();
 
-        void onCreate();
-
-        void onStart();
-
-        void onResume();
-
-        void onPause();
-
-        void onStop();
-
-        void onDestroy();
-
         void onActivityResult(int requestCode, int resultCode, Intent data);
     }
 }

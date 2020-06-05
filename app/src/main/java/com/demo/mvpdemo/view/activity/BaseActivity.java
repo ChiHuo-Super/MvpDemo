@@ -11,6 +11,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleObserver;
 
 import com.demo.mvpdemo.controller.IBaseController;
 import com.demo.mvpdemo.utils.ClickUtils;
@@ -44,7 +45,6 @@ public abstract class BaseActivity<T extends IBaseController.IPresenter> extends
     private OnViewClickedListener finishClickedListeners, timerClickedListeners;
 
     protected long backTime;
-    protected boolean isShowView = true;//是否显示View
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -57,41 +57,11 @@ public abstract class BaseActivity<T extends IBaseController.IPresenter> extends
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initCreate();
-        if (mPresenter != null) mPresenter.onCreate();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        isShowView = true;
-        if (mPresenter != null) mPresenter.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        isShowView = true;
-        if (mPresenter != null) mPresenter.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        isShowView = false;
-        if (mPresenter != null) mPresenter.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        isShowView = false;
-        if (mPresenter != null) mPresenter.onStop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mPresenter != null) mPresenter.onDestroy();
         if (EventBusUtils.isRegistered(this)) EventBusUtils.unregister(this);
         if (mUnbinder != null) mUnbinder.unbind();
         stopCountDown();
@@ -104,7 +74,6 @@ public abstract class BaseActivity<T extends IBaseController.IPresenter> extends
     }
 
     public void initCreate() {
-        isShowView = true;
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         initSystemData();
         setContentView(setContentLayout());
@@ -112,6 +81,7 @@ public abstract class BaseActivity<T extends IBaseController.IPresenter> extends
         mUnbinder = ButterKnife.bind(this);
         clickUtils = new ClickUtils();
         initView();
+        getLifecycle().addObserver((LifecycleObserver) mPresenter);
     }
 
     private void initView() {
@@ -165,7 +135,7 @@ public abstract class BaseActivity<T extends IBaseController.IPresenter> extends
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-            //TODO 界面提示
+                //TODO 界面提示
 
             }
         });

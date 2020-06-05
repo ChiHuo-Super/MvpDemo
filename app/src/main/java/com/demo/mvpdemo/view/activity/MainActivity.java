@@ -1,12 +1,12 @@
 package com.demo.mvpdemo.view.activity;
 
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.Observer;
 
 import com.demo.mvpdemo.R;
 import com.demo.mvpdemo.controller.IMainController;
@@ -19,10 +19,11 @@ public class MainActivity extends BaseActivity<IMainController.IPresenter> imple
 
     @BindView(R.id.rootLayout)
     ConstraintLayout rootLayout;
+    @BindView(R.id.edt_idcard)
+    EditText edtIdcard;
     @BindView(R.id.txt_test)
-    TextView txt_test;
-    @BindView(R.id.btn_test)
-    Button btn_test;
+    TextView txtTest;
+
 
     @NonNull
     @Override
@@ -42,16 +43,24 @@ public class MainActivity extends BaseActivity<IMainController.IPresenter> imple
 
     @Override
     protected void initData() {
+        mPresenter.getShowIdCradInfo().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                txtTest.setText(s);
+            }
+        });
+    }
 
+    @OnClick(R.id.btn_query)
+    public void onBtnQueryClicked() {
+        String idCardStr = edtIdcard.getText().toString().trim();
+        if (!idCardStr.isEmpty()) {
+            mPresenter.queryIdcardData(idCardStr);
+        }
     }
 
     @Override
-    public void showWeatherData(String msg) {
-        txt_test.setText(msg);
-    }
+    public void showIdcardData(String msg) {
 
-    @OnClick(R.id.btn_test)
-    public void onBtnTestClicked() {
-        mPresenter.getWeatherData();
     }
 }

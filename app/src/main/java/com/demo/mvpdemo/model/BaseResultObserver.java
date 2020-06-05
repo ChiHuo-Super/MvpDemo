@@ -2,12 +2,13 @@ package com.demo.mvpdemo.model;
 
 import android.content.Context;
 
+import com.demo.mvpdemo.bean.response.BaseResult;
 import com.demo.mvpdemo.view.dialog.LoadingDialog;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public abstract class BaseResultObserver<T> implements Observer<T> {
+public abstract class BaseResultObserver<T extends BaseResult> implements Observer<T> {
 
 
     private Disposable disposable;
@@ -45,6 +46,7 @@ public abstract class BaseResultObserver<T> implements Observer<T> {
     }
 
     public void onError(Throwable e, boolean isListener) {
+        System.out.println("报错：" + e.getMessage());
         if (isListener) onErrorListener("报错：" + e.getMessage());
         if (loadingDialog != null) loadingDialog.dismissLoadingDialog();
         if (disposable != null) disposable.dispose();

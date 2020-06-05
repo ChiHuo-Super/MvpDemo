@@ -1,11 +1,16 @@
 package com.demo.mvpdemo.controller;
 
+import androidx.lifecycle.MutableLiveData;
+
 public interface IMainController {
     interface IView extends IBaseController.IView {
-        void showWeatherData(String msg);
+        void showIdcardData(String msg);
     }
 
     interface IPresenter extends IBaseController.IPresenter {
-        void getWeatherData();
+
+        MutableLiveData<String> getShowIdCradInfo();
+
+        void queryIdcardData(String idcard);
     }
 }
